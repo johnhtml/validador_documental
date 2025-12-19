@@ -6,7 +6,6 @@ export interface AuthResult {
   userRoles: string[];
 }
 
-// Cambia 'your-secret' por tu clave secreta real o usa la pública de Azure AD si usas JWT de Microsoft
 const SECRET = process.env.JWT_SECRET || 'your-secret';
 
 export function getAuthFromRequest(req: NextApiRequest, allowedRoles: string[] = []): AuthResult {

@@ -30,11 +30,8 @@ export default function BlobUploader() {
   };
 
   return (
-    <div style={{ marginTop: 24 }}>
+    <div style={{ marginTop: 24 }} className="flex items-center gap-2">
       <input type="file" accept=".txt" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={!file} style={{ marginLeft: 8 }}>
-        Subir archivo
-      </button>
       <div>{status}</div>
     </div>
   );
