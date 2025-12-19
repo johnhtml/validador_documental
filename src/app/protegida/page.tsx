@@ -1,8 +1,20 @@
-"use client";
-import { withAuth } from "../../components/withAuth";
-import BlobUploader from "../../components/BlobUploader";
 
-function PaginaProtegida({ userRoles }: { userRoles: string[] }) {
+import { getAuthFromRequest } from "../../utils/authServer";
+import BlobUploader from "../../components/BlobUploader";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+export default async function PaginaProtegida() {
+  const cookieStore = await cookies();
+  const tokenCookie = cookieStore.get("token");
+  const token = tokenCookie?.value;
+  const req = { cookies: { token } } as any;
+  const { isAuthenticated, userRoles } = getAuthFromRequest(req, ["admin"]);
+
+  if (!isAuthenticated) {
+    redirect("/");
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <h2>Página protegida</h2>
@@ -12,6 +24,3 @@ function PaginaProtegida({ userRoles }: { userRoles: string[] }) {
     </main>
   );
 }
-
-
-export default withAuth(PaginaProtegida, ["admin"]);
